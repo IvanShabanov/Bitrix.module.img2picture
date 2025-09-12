@@ -1030,11 +1030,7 @@ class CImageManupulator extends CSimpleImage
 					if (!empty($arResult['FILES'][self::smallWidth][$file_type])) {
 						$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth][$file_type] . '"';
 					} else {
-						if ($file_src == 'avif') {
-							$lazy = 'srcset="' . self::onePXavif . '"';
-						} else if ($file_src == 'webp') {
-							$lazy = 'srcset="' . self::onePXwebp . '"';
-						}
+						$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 					}
 
 					$index = 0;
@@ -1046,7 +1042,7 @@ class CImageManupulator extends CSimpleImage
 					if (!empty($arResult['FILES'][self::smallWidth]['avif'])) {
 						$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth]['avif'] . '"';
 					} else {
-						$lazy = 'srcset="' . self::onePXavif . '"';
+						$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 					}
 					$index = 1;
 				} else if ($file_type == 'webp') {
@@ -1057,7 +1053,7 @@ class CImageManupulator extends CSimpleImage
 					if (!empty($arResult['FILES'][self::smallWidth]['webp'])) {
 						$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth]['webp'] . '"';
 					} else {
-						$lazy = 'srcset="' . self::onePXwebp . '"';
+						$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 					}
 					$index = 2;
 				} else if ($arParams['USE_ONLY_WEBP_AVIF'] != 'Y') {
@@ -1069,7 +1065,7 @@ class CImageManupulator extends CSimpleImage
 					if (!empty($arResult['FILES'][self::smallWidth]['src'])) {
 						$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth]['src'] . '"';
 					} else {
-						$lazy = 'srcset="' . self::onePXpng . '"';
+						$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 					}
 					$index = 3;
 				}
@@ -1085,8 +1081,10 @@ class CImageManupulator extends CSimpleImage
 						$media .= $mediaand . '(max-width: ' . $val['max'] . 'px)';
 					}
 					$media .= '"';
-					$addsource[$index]     = '<source srcset="' . $file_src . '" ' . $media . ' ' . $type . '>';
-					$addsourceLazy[$index] = '<source ' . $lazy . ' data-i2p="Y" data-srcset="' . $file_src . '" ' . $media . ' ' . $type . '>';
+					if (!empty(trim($type))) {
+						$addsource[$index]     = '<source srcset="' . $file_src . '" ' . $media . ' ' . $type . '>';
+						$addsourceLazy[$index] = '<source ' . $lazy . ' data-i2p="Y" data-srcset="' . $file_src . '" ' . $media . ' ' . $type . '>';
+					}
 				}
 			}
 			ksort($addsource);
@@ -1110,11 +1108,7 @@ class CImageManupulator extends CSimpleImage
 			if (!empty($arResult['FILES'][self::smallWidth][$arResult['FILES']['original']['min']])) {
 				$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth][$arResult['FILES']['original']['min']] . '"';
 			} else {
-				if ($arResult['FILES']['original']['min'] == 'avif') {
-					$lazy = 'srcset="' . self::onePXavif . '"';
-				} else if ($arResult['FILES']['original']['min'] == 'webp') {
-					$lazy = 'srcset="' . self::onePXwebp . '"';
-				}
+				$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 			}
 			$arResult['sources'][]      = '<source srcset="' . $arResult['FILES']['original'][$arResult['FILES']['original']['min']] . '"  type="image/' . $arResult['FILES']['original']['min'] . '">';
 			$arResult['sources_lazy'][] = '<source ' . $lazy . '  data-i2p="Y" data-srcset="' . $arResult['FILES']['original'][$arResult['FILES']['original']['min']] . '"  type="image/' . $arResult['FILES']['original']['min'] . '">';
@@ -1124,7 +1118,7 @@ class CImageManupulator extends CSimpleImage
 			if (!empty($arResult['FILES'][self::smallWidth]['avif'])) {
 				$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth]['avif'] . '"';
 			} else {
-				$lazy = 'srcset="' . self::onePXavif . '"';
+				$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 			}
 			$arResult['sources'][]      = '<source srcset="' . $arResult['FILES']['original']['avif'] . '"  type="image/avif">';
 			$arResult['sources_lazy'][] = '<source ' . $lazy . '  data-i2p="Y" data-srcset="' . $arResult['FILES']['original']['avif'] . '"  type="image/avif">';
@@ -1134,7 +1128,7 @@ class CImageManupulator extends CSimpleImage
 			if (!empty($arResult['FILES'][self::smallWidth]['webp'])) {
 				$lazy = 'srcset="' . $arResult['FILES'][self::smallWidth]['webp'] . '"';
 			} else {
-				$lazy = 'srcset="' . self::onePXwebp . '"';
+				$lazy = 'srcset="' . $arParams['1x1png'] . '"';
 			}
 			$arResult['sources'][]      = '<source srcset="' . $arResult['FILES']['original']['webp'] . '"  type="image/webp">';
 			$arResult['sources_lazy'][] = '<source ' . $lazy . '  data-i2p="Y" data-srcset="' . $arResult['FILES']['original']['webp'] . '"  type="image/webp">';
