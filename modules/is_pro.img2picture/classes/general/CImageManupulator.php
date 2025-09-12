@@ -1145,32 +1145,38 @@ class CImageManupulator extends CSimpleImage
 
 		$arResult["img_lazy"]["tag"] = '<img ';
 		$arResult["img"]["tag"]      = '<img ';
+		$arrReadyAttribute           = [];
 		foreach ($arResult["img"] as $attr_name => $attr_val) {
-			if ($attr_name != 'tag') {
-				if ($attr_name == 'src') {
-					$arResult["img_lazy"]["tag"] .= ' data-i2p="Y" data-srcset="' . $attr_val . '"';
-					if (!empty($arResult['FILES'][self::smallWidth]['src_file'])) {
-						$arResult["img_lazy"]["tag"] .= ' srcset="' . $arResult['FILES'][self::smallWidth]['src_file'] . '"';
-					} else {
-						$arResult["img_lazy"]["tag"] .= ' srcset="' . $arParams['1x1png'] . '"';
-					}
-				}
-				if (
-					in_array($attr_name, ['width', 'height'])
-					|| (
-						$attr_name == 'style'
-						&& (
-							mb_strpos($attr_val, 'width') !== false
-							|| mb_strpos($attr_val, 'height') !== false
-						)
-					)
-				) {
-					unset($arResult['FILES']['original']['width']);
-					unset($arResult['FILES']['original']['height']);
-				}
-				$arResult["img_lazy"]["tag"] .= ' ' . $attr_name . '="' . $attr_val . '"';
-				$arResult["img"]["tag"] .= ' ' . $attr_name . '="' . $attr_val . '"';
+			if (in_array($attr_name, ['tag', 'srcset'])) {
+				continue;
 			}
+			if (in_array($attr_name, $arrReadyAttribute)) {
+				continue;
+			}
+			$arrReadyAttribute[] = $attr_name;
+			if ($attr_name == 'src') {
+				$arResult["img_lazy"]["tag"] .= ' data-i2p="Y" data-srcset="' . $attr_val . '"';
+				if (!empty($arResult['FILES'][self::smallWidth]['src_file'])) {
+					$arResult["img_lazy"]["tag"] .= ' srcset="' . $arResult['FILES'][self::smallWidth]['src_file'] . '"';
+				} else {
+					$arResult["img_lazy"]["tag"] .= ' srcset="' . $arParams['1x1png'] . '"';
+				}
+			}
+			if (
+				in_array($attr_name, ['width', 'height'])
+				|| (
+					$attr_name == 'style'
+					&& (
+						mb_strpos($attr_val, 'width') !== false
+						|| mb_strpos($attr_val, 'height') !== false
+					)
+				)
+			) {
+				unset($arResult['FILES']['original']['width']);
+				unset($arResult['FILES']['original']['height']);
+			}
+			$arResult["img_lazy"]["tag"] .= ' ' . $attr_name . '="' . $attr_val . '"';
+			$arResult["img"]["tag"] .= ' ' . $attr_name . '="' . $attr_val . '"';
 		}
 		if (($arParams['ADD_WIDTH'] == "Y") && !empty($arResult['FILES']['original']['width']) && !empty($arResult['FILES']['original']['height'])) {
 			$arResult["img_lazy"]["tag"] .= ' width="' . $arResult['FILES']['original']['width'] . '" ';
