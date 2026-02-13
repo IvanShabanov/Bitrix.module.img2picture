@@ -739,10 +739,6 @@ class CImageManupulator extends CSimpleImage
 
 			/* проверим существует ли файл вообще */
 			if (!file_exists($doc_root . $src)) {
-				$src = urldecode($src);
-			}
-
-			if (!file_exists($doc_root . $src)) {
 				return false;
 			}
 
@@ -789,9 +785,6 @@ class CImageManupulator extends CSimpleImage
 
 		/* проверим существует ли файл вообще */
 		$fullPathFile = str_replace('//', '/', $doc_root . $src);
-		if (!file_exists($fullPathFile)) {
-			$src = urldecode($src);
-		}
 		$fullPathFile = str_replace('//', '/', $doc_root . $src);
 		if (!file_exists($fullPathFile)) {
 			if ($this->arParams['DEBUG'] == 'Y') {
