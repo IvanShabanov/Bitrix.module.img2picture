@@ -21,7 +21,7 @@ if (!class_exists('Imagick')) {
 	$MESS['ISPRO_IMG2PICTURE_USE_IMAGICK'] .= ' <b>(Не применимо, так как не утановлен Imagick)</b>';
 };
 
-$MESS['ISPRO_IMG2PICTURE_LAZYLOAD'] = 'Использовать ленивую загрузку изображений (lazyload)';
+
 $MESS['ISPRO_IMG2PICTURE_ATTR_SRC'] = 'В каких аттрибутах тега img искать ссылку на изображение *<br> (по умолчанию src)';
 $MESS['ISPRO_IMG2PICTURE_ATTR_SRC_ERROR'] = 'Поле является обязательным для заполнения (по умолчанию "src")';
 $MESS['ISPRO_IMG2PICTURE_CACHE_TTL'] = 'Время хранения кеша изображений<br>(по умолчанию 2592000 - 30 дней)';
@@ -43,6 +43,12 @@ $MESS['ISPRO_IMG2PICTURE_MODULE_MODE_off'] = 'Выключен';
 $MESS['ISPRO_IMG2PICTURE_MODULE_MODE_test'] = 'Тестирование';
 $MESS['ISPRO_IMG2PICTURE_MODULE_MODE_on'] = 'Включен';
 $MESS['ISPRO_IMG2PICTURE_MODULE_MODE_imitation'] = 'Имитация работы';
+
+$MESS['ISPRO_IMG2PICTURE_LAZYLOAD'] = 'Использовать ленивую загрузку изображений (lazyload)';
+$MESS['ISPRO_IMG2PICTURE_LAZYLOAD_N'] = 'Не использовать';
+$MESS['ISPRO_IMG2PICTURE_LAZYLOAD_Y'] = 'JS lazyload';
+$MESS['ISPRO_IMG2PICTURE_LAZYLOAD_NATIVE'] = 'HTML Native';
+$MESS['ISPRO_IMG2PICTURE_SHOW_PIXILING_PICTURE'] = "До загрузки (lazyload) показывать уменьшеное изображение";
 
 
 $jsPath   = str_replace(

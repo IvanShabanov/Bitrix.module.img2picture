@@ -78,6 +78,17 @@ $arModuleCfg = [
 
 		/* Использовать lazyload Y/N */
 		'LAZYLOAD'           => [
+			'type'    =>  'select',
+			'values'  => [					/* Значения настройки */
+				'N',
+				'Y',
+				'NATIVE',
+			],
+			'default' => 'NATIVE'
+		],
+
+		/* Использовать lazyload Y/N */
+		'SHOW_PIXILING_PICTURE' => [
 			'type'    => 'checkbox',
 			'default' => 'Y'
 		],

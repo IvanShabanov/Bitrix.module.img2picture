@@ -121,7 +121,9 @@ class CImageManupulator extends CSimpleImage
 			foreach ($arParams['RESPONSIVE_VALUE'] as $key => $val) {
 				$arParams['WIDTH'][] = $val['width'];
 			}
-			$arParams['WIDTH'][] = self::smallWidth;
+			if ($this->arParams['SHOW_PIXILING_PICTURE'] == 'Y') {
+				$arParams['WIDTH'][] = self::smallWidth;
+			}
 			rsort($arParams['WIDTH'], SORT_NUMERIC);
 		} else {
 			$arParams['RESPONSIVE_VALUE'] = [];
@@ -976,11 +978,13 @@ class CImageManupulator extends CSimpleImage
 
 			foreach ($arResult[self::smallWidth] as $type_origin => $file) {
 				if ($this->arParams['IMITATION'] !== 'Y') {
-					$filename                                           = str_replace('//', '/', $this->arParams['DOCUMENT_ROOT'] . '/' . $file);
-					$type                                               = pathinfo($filename, PATHINFO_EXTENSION);
-					$data                                               = file_get_contents($filename);
-					$arResult[self::smallWidth][$type_origin]           = 'data:image/' . $type . ';base64,' . base64_encode($data);
-					$arResult[self::smallWidth][$type_origin . '_file'] = $file;
+					if ($this->arParams['SHOW_PIXILING_PICTURE'] == 'Y') {
+						$filename                                           = str_replace('//', '/', $this->arParams['DOCUMENT_ROOT'] . '/' . $file);
+						$type                                               = pathinfo($filename, PATHINFO_EXTENSION);
+						$data                                               = file_get_contents($filename);
+						$arResult[self::smallWidth][$type_origin]           = 'data:image/' . $type . ';base64,' . base64_encode($data);
+						$arResult[self::smallWidth][$type_origin . '_file'] = $file;
+					}
 				} else {
 					$arResult[self::smallWidth][$type_origin] = self::onePXwebp;
 				}
@@ -1178,6 +1182,9 @@ class CImageManupulator extends CSimpleImage
 			$arResult["img"]["tag"] .= ' height="' . $arResult['FILES']['original']['height'] . '" ';
 
 		}
+		if ($arParams['LAZYLOAD'] == "NATIVE" && empty($arResult["img"]['loading'])) {
+			$arResult["img"]["tag"] .= ' loading="lazy" ';
+		}
 
 		$arResult["img_lazy"]["tag"] .= '>';
 		$arResult["img"]["tag"] .= '>';
@@ -1293,7 +1300,7 @@ class CImageManupulator extends CSimpleImage
 					}
 				}
 				$arResult['style'] .= '{';
-				if ($arParams['LAZYLOAD'] != "Y") {
+				if (!in_array($arParams['LAZYLOAD'], ["Y", "NATIVE"])) {
 					ksort($addsource);
 					foreach ($addsource as $oneaddsource) {
 						$arResult['style'] .= $oneaddsource;
@@ -1308,7 +1315,7 @@ class CImageManupulator extends CSimpleImage
 			}
 		}
 		$arResult['style'] .= '@media (min-width: ' . (int) $minmax . 'px) {';
-		if ($arParams['LAZYLOAD'] != "Y") {
+		if (!in_array($arParams['LAZYLOAD'], ["Y", "NATIVE"])) {
 			$arResult['style'] .= '' . $arResult['cssSelector'] . '{' . str_replace($arResult['img']['src'], $arResult['FILES']['original']['src'], $arResult['img']['parse_tag']['style']) . '}';
 			if (!empty($arResult['FILES']['original']['avif'])) {
 				$arResult['style'] .= '.avif' . $arResult['cssSelector'] . '{' . str_replace($arResult['img']['src'], $arResult['FILES']['original']['avif'], $arResult['img']['parse_tag']['style']) . '}';
